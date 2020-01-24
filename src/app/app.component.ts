@@ -11,25 +11,36 @@ import { PlayersService } from './players.service';
 export class AppComponent implements OnInit {
   constructor(private playersService: PlayersService) { }
 
-  teams: string[];
-  year: number = 2019; 
-  selectedYear: number;
-  years: number[] = this.getYears(1900);
- 
+  private teams: string[];
+  private players: string[]
+  private year: number = 2019;
+  private selectedYear: number;
+  private years: number[] = this.getYears(1876);
+
   ngOnInit() {
     this.refreshTeams(this.year);
+
+    this.playersService.fetchRoster().subscribe(data => {
+      this.players = data;
+    });
   }
 
   refreshTeams(year: number) {
-    this.teams = this.playersService.fetchTeams(this.year).subscribe(data => { this.teams = data });
+    this.playersService.fetchTeams(this.year).subscribe(data => {
+      this.teams = data;
+    });
   }
 
-  onYearChange() : void {
+  onTeamsChange() : void {
+    
+  }
+
+  onYearChange(): void {
     this.year = this.selectedYear;
     this.refreshTeams(this.year);
   }
 
-  getYears(startYear) : number[] {
+  getYears(startYear): number[] {
     var currentYear = new Date().getFullYear()
     var years = [];
     for (var x = currentYear; x >= startYear; x--) {

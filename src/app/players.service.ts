@@ -10,10 +10,24 @@ export class PlayersService {
 
     constructor(private http: HttpClient) { }
 
-    returnedTeams = [];
+    fetchRoster() {
+        const year = 1990;
+        var queryString = `http://lookup-service-prod.mlb.com/json/named.roster_team_alltime.bam?start_season='${year}'&end_season='${year + 1}'&team_id='121'`;
 
-    fetchTeams(year: number) : any {
+        return this.http.get(queryString)
+            .pipe(
+                map(data => {
+                    const playersArray = [];
+                    var rows = data['roster_team_alltime'].queryResults.row;
+                    for (var item in rows) {
+                        playersArray.push(rows[item].name_first_last);
+                    }
+                    return playersArray;
+                })
+            )
+    }
 
+    fetchTeams(year: number): any {
         var queryString = `http://lookup-service-prod.mlb.com/json/named.team_all_season.bam?sport_code='mlb'&all_star_sw='N'&sort_order=name_asc&season='${year}'`;
 
         return this.http.get(queryString)
