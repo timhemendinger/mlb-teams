@@ -4,9 +4,9 @@
   <option *ngFor = "let year of years" value="{{ year }}">{{ year }}</option>
 </select>
 
-<select>
-  <option *ngFor="let team of teams">
-    {{ team }}
+<select [(ngModel)]="selectedTeam" (change)="onTeamsChange()">
+  <option *ngFor="let team of teams; let i = index" value="{{ team.teamId }}">
+    {{ team.team }}
   </option>
 </select>
 

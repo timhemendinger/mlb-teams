@@ -10,9 +10,8 @@ export class PlayersService {
 
     constructor(private http: HttpClient) { }
 
-    fetchRoster() {
-        const year = 1990;
-        var queryString = `http://lookup-service-prod.mlb.com/json/named.roster_team_alltime.bam?start_season='${year}'&end_season='${year + 1}'&team_id='121'`;
+    fetchRoster(year: number, teamId: number) {
+        var queryString = `http://lookup-service-prod.mlb.com/json/named.roster_team_alltime.bam?start_season='${year}'&end_season='${year + 1}'&team_id='${teamId}'`;
 
         return this.http.get(queryString)
             .pipe(
@@ -36,7 +35,7 @@ export class PlayersService {
                     const teamArray = [];
                     var rows = data['team_all_season'].queryResults.row;
                     for (var item in rows) {
-                        teamArray.push(rows[item].name_display_full);
+                        teamArray.push({ 'team': rows[item].name_display_full, 'teamId': rows[item].team_id });
                     }
                     return teamArray;
                 })

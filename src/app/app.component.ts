@@ -11,18 +11,15 @@ import { PlayersService } from './players.service';
 export class AppComponent implements OnInit {
   constructor(private playersService: PlayersService) { }
 
-  private teams: string[];
+  private teams;
   private players: string[]
   private year: number = 2019;
   private selectedYear: number;
+  private selectedTeam: number;
   private years: number[] = this.getYears(1876);
 
   ngOnInit() {
     this.refreshTeams(this.year);
-
-    this.playersService.fetchRoster().subscribe(data => {
-      this.players = data;
-    });
   }
 
   refreshTeams(year: number) {
@@ -32,7 +29,9 @@ export class AppComponent implements OnInit {
   }
 
   onTeamsChange() : void {
-    
+    this.playersService.fetchRoster(this.year, this.selectedTeam).subscribe(data => {
+      this.players = data;
+    });
   }
 
   onYearChange(): void {
