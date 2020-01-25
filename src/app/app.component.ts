@@ -14,7 +14,7 @@ export class AppComponent implements OnInit {
   private teams;
   private players: string[]
   private year: number = 2019;
-  private selectedYear: number;
+  private selectedYear: number = this.year;
   private selectedTeam: number;
   private years: number[] = this.getYears(1876);
 
@@ -28,15 +28,23 @@ export class AppComponent implements OnInit {
     });
   }
 
-  onTeamsChange() : void {
+  refreshRoster(year: number, teamId: number) {
     this.playersService.fetchRoster(this.year, this.selectedTeam).subscribe(data => {
       this.players = data;
     });
   }
 
+  onTeamsChange() : void {
+    this.refreshTeams(this.year);
+    if (this.selectedTeam) {
+      this.refreshRoster(this.year, this.selectedTeam);
+    }
+  }
+
   onYearChange(): void {
     this.year = this.selectedYear;
     this.refreshTeams(this.year);
+    this.refreshRoster(this.year, this.selectedTeam);
   }
 
   getYears(startYear): number[] {

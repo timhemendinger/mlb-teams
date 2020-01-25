@@ -11,7 +11,7 @@ export class PlayersService {
     constructor(private http: HttpClient) { }
 
     fetchRoster(year: number, teamId: number) {
-        var queryString = `http://lookup-service-prod.mlb.com/json/named.roster_team_alltime.bam?start_season='${year}'&end_season='${year + 1}'&team_id='${teamId}'`;
+        var queryString = `http://lookup-service-prod.mlb.com/json/named.roster_team_alltime.bam?start_season='${year}'&end_season='${+year + 1}'&team_id='${teamId}'`;
 
         return this.http.get(queryString)
             .pipe(

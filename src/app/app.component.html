@@ -1,7 +1,7 @@
 <button (click)="fetchTeams()">Fetch</button>
 
 <select [(ngModel)]="selectedYear" (change)="onYearChange($event)">
-  <option *ngFor = "let year of years" value="{{ year }}">{{ year }}</option>
+  <option *ngFor = "let year of years" [ngValue]="year">{{ year }}</option>
 </select>
 
 <select [(ngModel)]="selectedTeam" (change)="onTeamsChange()">
@@ -11,7 +11,7 @@
 </select>
 
 <ul>
-  <li *ngFor="let player of players">
+  <li *ngFor="let player of players"> 
     {{ player }}
   </li>
 </ul>
