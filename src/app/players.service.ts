@@ -13,8 +13,10 @@ export class PlayersService {
 
     constructor(private http: HttpClient) { }
 
+    private mlbAPIHost = 'http://lookup-service-prod.mlb.com/json/'
+
     fetchPlayerInfo(playerId: number) {
-        var queryString = `http://lookup-service-prod.mlb.com/json/named.player_info.bam?sport_code='mlb'&player_id='${playerId}'`;
+        var queryString = `${this.mlbAPIHost}named.player_info.bam?sport_code='mlb'&player_id='${playerId}'`;
 
         return this.http.get(queryString)
             .pipe(
@@ -22,7 +24,7 @@ export class PlayersService {
                     var row = data['player_info'].queryResults.row;
                     const playerInfo: Player = {
                         name: row.name_display_first_last,
-                        position: row.primary_position,
+                        position: row.primary_position_txt,
                         birthdate: row.birth_date,
                         bats: row.bats,
                         throws: row.throws
@@ -33,7 +35,7 @@ export class PlayersService {
     }
 
     fetchRoster(year: number, teamId: number) {
-        var queryString = `http://lookup-service-prod.mlb.com/json/named.roster_team_alltime.bam?start_season='${year}'&end_season='${+year + 1}'&team_id='${teamId}'`;
+        var queryString = `${this.mlbAPIHost}named.roster_team_alltime.bam?start_season='${year}'&end_season='${+year + 1}'&team_id='${teamId}'`;
 
         return this.http.get(queryString)
             .pipe(
@@ -49,7 +51,7 @@ export class PlayersService {
     }
 
     fetchTeams(year: number): any {
-        var queryString = `http://lookup-service-prod.mlb.com/json/named.team_all_season.bam?sport_code='mlb'&all_star_sw='N'&sort_order=name_asc&season='${year}'`;
+        var queryString = `${this.mlbAPIHost}named.team_all_season.bam?sport_code='mlb'&all_star_sw='N'&sort_order=name_asc&season='${year}'`;
 
         return this.http.get(queryString)
             .pipe(

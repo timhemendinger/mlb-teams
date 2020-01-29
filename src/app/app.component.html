@@ -13,7 +13,7 @@
 <div *ngIf="player">
       <p>name: {{ player.name }}</p>
       <p>position: {{ player.position }}</p>
-      <p>birthdate: {{ player.birthdate }}</p>
+      <p>birthdate: {{ player.birthdate | date:'longDate' }}</p>
       <p>bats: {{ player.bats }}</p>
       <p>throws: {{ player.throws }}</p>
 </div>

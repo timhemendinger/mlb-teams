@@ -26,7 +26,6 @@ export class AppComponent implements OnInit {
   }
 
   getPlayerInfo(id: number) {
-    console.log(id);
     this.playersService.fetchPlayerInfo(id).subscribe(data => {
       this.player = data;
     });
